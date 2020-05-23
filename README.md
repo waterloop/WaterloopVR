@@ -1,2 +1,2 @@
 # WaterloopVR
-Epic Read me.
+Waterloop Pod Model Demonstration in VR on Unity! :)
