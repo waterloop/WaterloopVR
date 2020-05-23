@@ -670,7 +670,7 @@ PlayerSettings:
   cloudProjectId: 4bb00d93-5f16-45c5-9cf7-891c29d60b95
   framebufferDepthMemorylessMode: 0
   projectName: Tutorial
-  organizationId: waterloop-vr
+  organizationId: waterloop
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
