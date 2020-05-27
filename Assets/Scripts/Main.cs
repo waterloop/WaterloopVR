@@ -1,33 +1,71 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Main : MonoBehaviour
-{
+[Serializable]
+public class SubMeshes {
+    public MeshRenderer meshRenderer;
+    public Vector3 originalPosition;
+    public Vector3 explodedPosition;
+}
 
-    //myModel.gameObject.transform.position = new Vector3(10, 10, 10);
-    public GameObject myModel;
-    void Start() {
-        myModel = GameObject.FindGameObjectWithTag("Model");
+public class Main : MonoBehaviour {
+
+    #region Variables
+    public List<SubMeshes> childMeshRenderers;
+    bool isInExplodedView = false;
+    public float explosionSpeed = 0.1f;
+    bool isMoving = false;
+    #endregion
+
+    #region UnityFunctions
+
+    private void Start (){
+        childMeshRenderers = new List<SubMeshes> ();
+        foreach (var item in GetComponentsInChildren<MeshRenderer> ()){
+            SubMeshes mesh = new SubMeshes ();
+            mesh.meshRenderer = item;
+            mesh.originalPosition = item.transform.position;
+            mesh.explodedPosition = item.bounds.center * 1.5f;
+            childMeshRenderers.Add(mesh);
+        }
     }
-    
+
     // Update is called once per frame
-    void Update() {
-        // myModel.transform.position = new Vector3(10f, 10f, 10f);
-        if (Input.GetKey("up")) {
-            
-            myModel.transform.position = new Vector3(myModel.transform.position.x, myModel.transform.position.y + 0.2f, myModel.transform.position.z);
-        }
+    void Update () {
         
-        if (Input.GetKey("down")) {
-            myModel.transform.position = new Vector3(myModel.transform.position.x, myModel.transform.position.y - 0.2f, myModel.transform.position.z);
+        if(Input.GetKey("up")) ToggleExplodedView();
+        if (isMoving) {
+            if (isInExplodedView){
+                foreach (var item in childMeshRenderers){
+                    item.meshRenderer.transform.position = Vector3.Lerp (item.meshRenderer.transform.position, item.explodedPosition, explosionSpeed);
+                    if (Vector3.Distance (item.meshRenderer.transform.position, item.explodedPosition) < 0.001f){
+                        isMoving = false;
+                    }
+                }
+            } else{
+                foreach (var item in childMeshRenderers){
+                    item.meshRenderer.transform.position = Vector3.Lerp (item.meshRenderer.transform.position, item.originalPosition, explosionSpeed);
+                    if (Vector3.Distance (item.meshRenderer.transform.position, item.originalPosition) < 0.001f){
+                        isMoving = false;
+                    }
+                }
+            }
         }
-        if (Input.GetKey("left")) {
-            myModel.transform.position = new Vector3(myModel.transform.position.x - 0.2f, myModel.transform.position.y, myModel.transform.position.z);
-        }
-        if (Input.GetKey("right")) {
-            myModel.transform.position = new Vector3(myModel.transform.position.x + 0.2f, myModel.transform.position.y, myModel.transform.position.z);
-        }
-
     }
+    #endregion
+
+    #region CustomFunctions
+
+    public void ToggleExplodedView (){
+        if (isInExplodedView){
+            isInExplodedView = false;
+            isMoving = true;
+        } else{
+            isInExplodedView = true;
+            isMoving = true;
+        }
+    }
+    #endregion
 }
