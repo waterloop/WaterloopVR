@@ -21,6 +21,7 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
 
 # Rider
 .idea/
@@ -57,4 +58,8 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+# PiXYZ Plugin
+[Aa]ssets/Plugins/Pixyz
+
 
