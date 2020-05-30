@@ -61,5 +61,7 @@ crashlytics-build.properties
 
 # PiXYZ Plugin
 [Aa]ssets/Plugins/Pixyz
+Pixyz.*
+GitHub.meta
 
-
+!/[Aa]ssets/**/*.meta
