@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class SubMeshes {
@@ -17,12 +18,16 @@ public class Main : MonoBehaviour {
     bool isInExplodedView = false;
     public float explosionSpeed = 0.1f;
     bool isMoving = false;
+    double waitingTime = 0.0f;
+    public Button testBtn;
     #endregion
 
     #region UnityFunctions
 
     private void Start (){
         childMeshRenderers = new List<SubMeshes> ();
+        testBtn = testBtn.GetComponent<Button>();
+        testBtn.onClick.AddListener(sendOutput);
         foreach (var item in GetComponentsInChildren<MeshRenderer> ()){
             SubMeshes mesh = new SubMeshes ();
             mesh.meshRenderer = item;
@@ -31,11 +36,25 @@ public class Main : MonoBehaviour {
             childMeshRenderers.Add(mesh);
         }
     }
+    public void sendOutput() {
+        Debug.Log("Button has been pressed");
+        testBtn.GetComponent<Button>().gameObject.SetActive(false);
+        
+    }
 
     // Update is called once per frame
     void Update () {
+      
+        if (Input.GetKey("up")) {
+            waitingTime += Time.deltaTime;
+            Debug.Log("Up arrow key pressed for: " + waitingTime);
+        }
         
-        if(Input.GetKey("up")) ToggleExplodedView();
+
+        if (waitingTime > 0.1) {
+            ToggleExplodedView(); testBtn.GetComponent<Button>().gameObject.SetActive(true);
+            waitingTime = 0.0f;
+        }
         if (isMoving) {
             if (isInExplodedView){
                 foreach (var item in childMeshRenderers){

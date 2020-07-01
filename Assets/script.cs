@@ -17,7 +17,7 @@ public class script : MonoBehaviour
 
     #region Variables
     public int movespeed;
-    private System.GameObject[] LIM;
+    private GameObject[] LIM;
     //public List<SubMeshes> childMeshRenderers;
     bool isInExplodedView = false;
     public float explosionSpeed = 0.1f;
@@ -34,7 +34,7 @@ public class script : MonoBehaviour
         {
             UnityEngine.Debug.Log("L key pressed, moving LIM");
             LIM = GameObject.FindGameObjectsWithTag("LIM");
-            foreach (Gameobject r in LIM)
+            foreach (GameObject r in LIM)
                 r.transform.position = new Vector3(139.6f, -2f, -15f);
         }
     }
