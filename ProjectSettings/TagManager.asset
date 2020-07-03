@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Model
   - Frame
-  - LIM
+  - Pod
   layers:
   - Default
   - TransparentFX
