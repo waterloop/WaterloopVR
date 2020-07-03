@@ -21,7 +21,7 @@ public class Main : MonoBehaviour {
     double waitingTime = 0.0f;
     public Button testBtn;
     public GameObject parent; //Parent of all gameobjects for the pod
-    GameObject[] children;
+    public Transform[] children;
     int temp = 0;
     #endregion
 
@@ -31,7 +31,7 @@ public class Main : MonoBehaviour {
         childMeshRenderers = new List<SubMeshes> ();
         testBtn = testBtn.GetComponent<Button>();
         testBtn.onClick.AddListener(sendOutput);
-        children = parent.GetComponentsInChildren<GameObject>();
+        children = parent.GetComponentsInChildren<Transform>();
         foreach (var item in GetComponentsInChildren<MeshRenderer> ()){
             SubMeshes mesh = new SubMeshes ();
             mesh.meshRenderer = item;
@@ -43,7 +43,9 @@ public class Main : MonoBehaviour {
     public void sendOutput() {
         Debug.Log("Button has been pressed");
         testBtn.GetComponent<Button>().gameObject.SetActive(false);
-        //children[temp].
+        foreach(Transform Obj in children) {
+            Obj.gameObject.SetActive(false);
+        }
         
     }
 
