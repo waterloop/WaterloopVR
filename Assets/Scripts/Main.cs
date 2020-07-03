@@ -20,6 +20,9 @@ public class Main : MonoBehaviour {
     bool isMoving = false;
     double waitingTime = 0.0f;
     public Button testBtn;
+    public GameObject parent; //Parent of all gameobjects for the pod
+    GameObject[] children;
+    int temp = 0;
     #endregion
 
     #region UnityFunctions
@@ -28,6 +31,7 @@ public class Main : MonoBehaviour {
         childMeshRenderers = new List<SubMeshes> ();
         testBtn = testBtn.GetComponent<Button>();
         testBtn.onClick.AddListener(sendOutput);
+        children = parent.GetComponentsInChildren<GameObject>();
         foreach (var item in GetComponentsInChildren<MeshRenderer> ()){
             SubMeshes mesh = new SubMeshes ();
             mesh.meshRenderer = item;
@@ -39,6 +43,7 @@ public class Main : MonoBehaviour {
     public void sendOutput() {
         Debug.Log("Button has been pressed");
         testBtn.GetComponent<Button>().gameObject.SetActive(false);
+        //children[temp].
         
     }
 
