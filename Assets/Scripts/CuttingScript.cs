@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 //[ExecuteInEditMode]
 public class CuttingScript : MonoBehaviour{
 
@@ -7,40 +9,34 @@ public class CuttingScript : MonoBehaviour{
     public Material mat;
     public Vector3 normal;
     public Vector3 position;
-    public Renderer rend;
+    public Slider slider;
     Renderer[] pod;
-    double i = 10;
     // Use this for initialization
     void Start() {
-        Debug.Log("Starting fun script");
-        rend = GetComponent<Renderer>();
-        normal = plane.transform.TransformVector(new Vector3(0, 0, -5));
+        normal = plane.transform.TransformVector(new Vector3(0, 0, -1));
         position = plane.transform.position;
+
         pod = GameObject.FindGameObjectWithTag("uniqueTag").GetComponentsInChildren<Renderer>();
-        foreach (Renderer x in pod) {
-            x.material = mat;
+        foreach (Renderer renderer in pod) {
+            foreach(Material material in renderer.materials) {
+                material.shader = Shader.Find("CrossSection/OnePlaneBSP");
+                material.SetColor("_CrossColor", material.color);
+            }
         }
-        UpdateShaderProperties();
+        
+        UpdatePlane(position, normal);
+
+        slider.onValueChanged.AddListener(delegate {
+            position.z = slider.value;
+            plane.transform.position = position;
+            UpdatePlane(position, normal); 
+        });
     }
+
     void Update() {
-
-        UpdateShaderProperties();
     }
 
-    private void UpdateShaderProperties() {
-        // normal = plane.transform.TransformVector(new Vector3(0, 0, -1));
-        // position = plane.transform.position;
-        normal = new Vector3(0, 0, -1);
-        position = new Vector3(0, 0, (float)i);
-
-
-        if (Input.GetKey("up")) {
-            Debug.Log("i: " + i);
-            i += 0.05;
-        } else if (Input.GetKey("down")) {
-            Debug.Log("i: " + i);
-            i -= 0.05;
-        }
+    private void UpdatePlane(Vector3 position, Vector3 normal) {
         foreach (Renderer r in pod) {
             r.material.SetVector("_PlanePosition", position);
             r.material.SetVector("_PlaneNormal", normal);
