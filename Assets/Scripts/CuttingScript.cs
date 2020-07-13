@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 //[ExecuteInEditMode]
-public class CuttingScript : MonoBehaviour{
+public class CuttingScript : MonoBehaviour {
 
     public GameObject plane;
     public Material mat;
@@ -18,18 +17,18 @@ public class CuttingScript : MonoBehaviour{
 
         pod = GameObject.FindGameObjectWithTag("uniqueTag").GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in pod) {
-            foreach(Material material in renderer.materials) {
+            foreach (Material material in renderer.materials) {
                 material.shader = Shader.Find("CrossSection/OnePlaneBSP");
                 material.SetColor("_CrossColor", material.color);
             }
         }
-        
+
         UpdatePlane(position, normal);
 
         slider.onValueChanged.AddListener(delegate {
             position.z = slider.value;
             plane.transform.position = position;
-            UpdatePlane(position, normal); 
+            UpdatePlane(position, normal);
         });
     }
 
