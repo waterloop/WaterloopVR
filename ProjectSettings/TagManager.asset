@@ -8,6 +8,13 @@ TagManager:
   - Frame
   - Pod
   - uniqueTag
+  - LIM
+  - BMS
+  - Roboteq
+  - Breaking
+  - Guidance
+  - Pneumatics
+  - GroupToggle
   layers:
   - Default
   - TransparentFX
