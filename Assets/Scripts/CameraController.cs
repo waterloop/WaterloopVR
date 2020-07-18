@@ -24,6 +24,6 @@ public class CameraController : MonoBehaviour {
 
     void Update() {
         var d = Input.GetAxis("Mouse ScrollWheel");
-        cameraTransform.position = Vector3.MoveTowards(cameraTransform.position, transform.position, d*speed);
+        cameraTransform.position = Vector3.MoveTowards(cameraTransform.position, transform.position, d * speed);
     }
 }
