@@ -20,10 +20,10 @@ public class CuttingScript : MonoBehaviour {
             foreach (Material material in renderer.materials) {
                 material.shader = Shader.Find("CrossSection/OnePlaneBSP");
                 material.SetColor("_CrossColor", material.color);
+                material.SetVector("_PlanePosition", position);
+                material.SetVector("_PlaneNormal", normal);
             }
         }
-
-        UpdatePlane(position, normal);
 
         slider.onValueChanged.AddListener(delegate {
             position.z = slider.value;
@@ -36,9 +36,11 @@ public class CuttingScript : MonoBehaviour {
     }
 
     private void UpdatePlane(Vector3 position, Vector3 normal) {
-        foreach (Renderer r in pod) {
-            r.material.SetVector("_PlanePosition", position);
-            r.material.SetVector("_PlaneNormal", normal);
+        foreach (Renderer renderer in pod) {
+            foreach (Material material in renderer.materials) {
+                material.SetVector("_PlanePosition", position);
+                material.SetVector("_PlaneNormal", normal);
+            }
         }
     }
 }
