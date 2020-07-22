@@ -65,3 +65,5 @@ Pixyz.*
 GitHub.meta
 
 !/[Aa]ssets/**/*.meta
+
+Output/
