@@ -15,6 +15,7 @@ TagManager:
   - Guidance
   - Pneumatics
   - GroupToggle
+  - SensorRouting
   layers:
   - Default
   - TransparentFX
