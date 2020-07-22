@@ -22,6 +22,8 @@ public class Main : MonoBehaviour {
     public Button testBtn;
     public GameObject parent; //Parent of all gameobjects for the pod
     public Transform[] children;
+    public GameObject Diago;
+    
     int temp = 0;
     #endregion
 
@@ -31,7 +33,7 @@ public class Main : MonoBehaviour {
         childMeshRenderers = new List<SubMeshes>();
         testBtn = testBtn.GetComponent<Button>();
         testBtn.onClick.AddListener(sendOutput);
-        children = parent.GetComponentsInChildren<Transform>();
+       //
         foreach (var item in GetComponentsInChildren<MeshRenderer>()) {
             SubMeshes mesh = new SubMeshes();
             mesh.meshRenderer = item;
@@ -53,6 +55,15 @@ public class Main : MonoBehaviour {
         if (Input.GetKey("up")) {
             waitingTime += Time.deltaTime;
             Debug.Log("Up arrow key pressed for: " + waitingTime);
+        }
+        if (Input.GetKey(KeyCode.D)) {
+            if (Diago.GetComponentInChildren<Renderer>().enabled) {
+                Diago.GetComponentInChildren<Renderer>().enabled = false;
+            } else {
+                Diago.GetComponentInChildren<Renderer>().enabled = true;
+            }
+            
+            
         }
 
         if (waitingTime > 0.1) {
