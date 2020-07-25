@@ -19,10 +19,13 @@ public class Main : MonoBehaviour {
     public float explosionSpeed = 0.1f;
     bool isMoving = false;
     double waitingTime = 0.0f;
-    public Button testBtn;
+    // public Button testBtn;
     public GameObject parent; //Parent of all gameobjects for the pod
     public Transform[] children;
     public GameObject Diago;
+    public GameObject wiring;
+    public Slider slider;
+    public GameObject plane;
     
     int temp = 0;
     #endregion
@@ -31,24 +34,25 @@ public class Main : MonoBehaviour {
 
     private void Start() {
         childMeshRenderers = new List<SubMeshes>();
-        testBtn = testBtn.GetComponent<Button>();
-        testBtn.onClick.AddListener(sendOutput);
+        Diago.GetComponentInChildren<Renderer>().enabled = false;
+        // testBtn = testBtn.GetComponent<Button>();
+        // testBtn.onClick.AddListener(sendOutput);
        //
         foreach (var item in GetComponentsInChildren<MeshRenderer>()) {
             SubMeshes mesh = new SubMeshes();
             mesh.meshRenderer = item;
             mesh.originalPosition = item.transform.position;
-            mesh.explodedPosition = item.bounds.center * 1.5f;
+            mesh.explodedPosition = item.bounds.center * 1.7f;
             childMeshRenderers.Add(mesh);
         }
     }
-    public void sendOutput() {
-        Debug.Log("Button has been pressed");
-        testBtn.GetComponent<Button>().gameObject.SetActive(false);
-        foreach (Transform Obj in children) {
-            Obj.gameObject.SetActive(false);
-        }
-    }
+    // public void sendOutput() {
+    //     // Debug.Log("Button has been pressed");
+    //     // testBtn.GetComponent<Button>().gameObject.SetActive(false);
+    //     foreach (Transform Obj in children) {
+    //         Obj.gameObject.SetActive(false);
+    //     }
+    // }
 
     // Update is called once per frame
     void Update() {
@@ -62,29 +66,32 @@ public class Main : MonoBehaviour {
             } else {
                 Diago.GetComponentInChildren<Renderer>().enabled = true;
             }
-            
-            
         }
 
         if (waitingTime > 0.1) {
-            ToggleExplodedView(); testBtn.GetComponent<Button>().gameObject.SetActive(true);
+            ToggleExplodedView();
+            // testBtn.GetComponent<Button>().gameObject.SetActive(true);
             waitingTime = 0.0f;
         }
         if (isMoving) {
             if (isInExplodedView) {
+                wiring.SetActive(false);
                 foreach (var item in childMeshRenderers) {
                     item.meshRenderer.transform.position = Vector3.Lerp(item.meshRenderer.transform.position, item.explodedPosition, explosionSpeed);
                     if (Vector3.Distance(item.meshRenderer.transform.position, item.explodedPosition) < 0.001f) {
                         isMoving = false;
                     }
                 }
+                plane.transform.localScale = Vector3.Lerp(plane.transform.localScale, new Vector3(13f, 15f, 1f), explosionSpeed);
             } else {
                 foreach (var item in childMeshRenderers) {
                     item.meshRenderer.transform.position = Vector3.Lerp(item.meshRenderer.transform.position, item.originalPosition, explosionSpeed);
                     if (Vector3.Distance(item.meshRenderer.transform.position, item.originalPosition) < 0.001f) {
                         isMoving = false;
+                        wiring.SetActive(true);
                     }
                 }
+                plane.transform.localScale = Vector3.Lerp(plane.transform.localScale, new Vector3(6f, 6f, 1f), explosionSpeed);
             }
         }
     }
@@ -96,9 +103,13 @@ public class Main : MonoBehaviour {
         if (isInExplodedView) {
             isInExplodedView = false;
             isMoving = true;
+            slider.value = 10;
+            slider.maxValue = 37;
         } else {
             isInExplodedView = true;
             isMoving = true;
+            slider.value = 10;
+            slider.maxValue = 71;
         }
     }
     #endregion

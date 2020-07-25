@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour {
     public GameObject slider;
     public GameObject camera;
     Transform cameraTransform;
-    float speed = 1f;
+    float speed = 1.75f;
     Rigidbody rigidbody;
     SliderController sliderController;
 
